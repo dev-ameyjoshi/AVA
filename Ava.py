@@ -111,13 +111,11 @@ def read_answers():
     return answers
 
 
+
 # db = deta.Base('HR-DB')
 # hr = db.get('testing')
 
 # initialize the openai api key
-
-
-
 
 
 # take user email
@@ -159,6 +157,8 @@ if candidate:
         time.sleep(1/150)
         theres_a_frame, frame = cap.read()
         audio_frame, val = player.get_frame(show=True)
+
+
         # if theres a frame
         if theres_a_frame:
             frame = cv2.resize(frame, (512, 512))
@@ -173,26 +173,30 @@ if candidate:
             #             global_variables["status"] = False
             #     except:
             #         print("Error: unable to start thread")
-            if final_respnse and status == False:
+            if final_respnse and status == "False":
                 final_respnse = False
                 print('final response: ', human)
+                # append the response by the user in a txt file in the email folder
+                with open(f'{email}/responses.txt', 'a') as f:
+                    f.write(f'{human}')
                 # increase the count
                 write_count(generate_count+1)
                 write_status(True)
         else:
-            if (generate_count > 0) and status:
+            if (generate_count > 0) and status == "True":
                 try:
-                        isExist = os.path.exists(f'./{email}/question_{generate_count}.avi')
-                        if isExist:
-                            cap = cv2.VideoCapture(
-                                f'./{email}/question_{generate_count}.avi')
-                            player = MediaPlayer(
-                                f'./{email}/question_{generate_count}.avi')
-                            write_count(generate_count+1)
-                            write_status(False)
-                            # if read_count() >= 3:
-                            #     write_count(-1)
-                            final_respnse = False
+                    isExist = os.path.exists(
+                        f'./{email}/question_{generate_count}.avi')
+                    if isExist:
+                        cap = cv2.VideoCapture(
+                            f'./{email}/question_{generate_count}.avi')
+                        player = MediaPlayer(
+                            f'./{email}/question_{generate_count}.avi')
+                        write_count(generate_count+1)
+                        write_status(False)
+                        # if read_count() >= 3:
+                        #     write_count(-1)
+                        final_respnse = False
                 except:
                     print("Error: unable to start thread")
             # if generate_count == -1:

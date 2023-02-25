@@ -144,5 +144,10 @@ if st.button('Submit') and name and re.match(email_regex, email) and number.isnu
 
     st.write("Videos generated successfully!")
 
+    # store the final questions in a file
+    with open(f"./{email}/questions.txt", "w") as f:
+        for question in final_questions:
+            f.write(question + "\n")
+
     # send the email
     send_email(email)
